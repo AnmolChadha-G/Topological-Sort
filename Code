@@ -1,0 +1,67 @@
+//////////////////////////////////////////////// TOPOLOGICAL SORT USING DFS /////////////////////////////////////////////////////////////////////////////
+void dfs(int V,vector<int> adj[],stack<int>&s,int i,vector<int>&vis)
+	{
+	    vis[i]=1;
+	    
+	    for(auto it:adj[i])
+	    {
+	        if(vis[it]==-1){
+	            dfs(V,adj,s,it,vis);
+	        }
+	    }
+	    s.push(i);
+	    
+	}
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    stack<int>s;
+	    vector<int>vis(V,-1);
+	    for(int i=0;i<V;i++)
+	    {
+	        if(vis[i]==-1){
+	       dfs(V,adj,s,i,vis);}
+	    }
+	    vector<int>ans;
+	    while(!s.empty())
+	    {
+	        ans.push_back(s.top());
+	        s.pop();
+	    }
+	    return ans;
+	}
+//////////////////////////////////////////////////////////////// TOPOLOGICAL SORT USING BFS /////////////////////////////////////////////////////////////////////////////
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    queue<int>q;
+	    vector<int>vis(V,-1);
+	    vector<int>ind(V,0);
+	    for(int i=0;i<V;i++)
+	    {
+	      for(auto it:adj[i])
+	      {
+	          ind[it]++;
+	      }
+	    }
+	    vector<int>ans;
+	    for(int i=0;i<V;i++){if(ind[i]==0){q.push(i);}}
+	    while(!q.empty())
+	    {
+	        int it=q.front();
+	        q.pop();
+	        ind[it]=0;
+	        ans.push_back(it);
+	        vis[it]=1;
+	        for(auto i:adj[it])
+	        {
+	            if(vis[i]==-1)
+	            {
+	                ind[i]--;
+	                if(ind[i]==0){
+	                q.push(i);
+	                }
+	            }
+	        }
+	    }
+	    return ans;
+	}
+	
